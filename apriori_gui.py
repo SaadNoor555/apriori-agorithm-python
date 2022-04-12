@@ -1,11 +1,13 @@
+from cgitb import text
 from email.message import Message
 from faulthandler import disable
 from fileinput import filename
 from os import system
 import re
 import tkinter as tk
-from tkinter import CENTER, RAISED, StringVar, filedialog
+from tkinter import CENTER, END, RAISED, StringVar, filedialog
 from turtle import st
+from webbrowser import get
 
 from numpy import pad
 
@@ -20,6 +22,12 @@ def browseFiles():
 
 def submit():
     global minSup, minCon, g_RHS, dataset
+    input = dataset_box.get("1.0", END)
+    if input!='' : 
+        fileName = 'input_data.csv'
+        newFile = open('input_data.csv','w+')
+        print(input, file=newFile)
+        newFile.close()
     if support_var.get()!='' : minSup = float(support_var.get())
     if confidence_var.get()!='' : minCon = float(confidence_var.get())
     if rhs_var.get()!='' : g_RHS = frozenset([rhs_var.get()])

@@ -56,6 +56,7 @@ if __name__ == '__main__':
 
     # Return rules with regard of `rhs`
     rules = objApriori.getSpecRules(rhs)
+    # print(rules)
     print('-'*20)
     print('rules refer to {}'.format(list(rhs)))
     for key, value in rules.items():

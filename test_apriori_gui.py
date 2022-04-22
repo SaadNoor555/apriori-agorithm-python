@@ -3,7 +3,7 @@ from fileinput import filename
 from os import stat, system
 import re
 import tkinter as tk
-from tkinter import CENTER, RAISED, StringVar, filedialog
+from tkinter import CENTER, RAISED, StringVar, filedialog, END
 from turtle import st
 
 from numpy import pad
@@ -18,10 +18,16 @@ def browseFiles():
     explore_var.set(fileName)
 
 def submit():
-    global minSup, minCon, g_RHS, dataset
+    global minSup, minCon, g_RHS, dataset, fileName
     if support_var.get()!='' : minSup = float(support_var.get())
     if confidence_var.get()!='' : minCon = float(confidence_var.get())
     if rhs_var.get()!='' : g_RHS = frozenset([rhs_var.get()])
+    input = dataset_box.get("1.0", END)
+    if len(input)>10:
+        fileName = 'input_data.csv'
+        newFile = open('input_data.csv','w+')
+        print(input[:len(input)-1], file=newFile, end="")
+        newFile.close()
     dataset = fileName
     root.destroy()
 
@@ -57,29 +63,33 @@ rhs_entry=tk.Entry(root, textvariable = rhs_var, font = ('normal'))
 
 sub_btn=tk.Button(root,text = 'Submit', font=('normal'), command = submit, bg="green")
   
-px1, py1 = 450, 300
+px1, py1 = 150, 300
 
 msg = 'The APRIORI Algorithm'
 title_label = tk.Label(root, text=msg, font=("Arial",30, "bold"))
 title_label.place(x=400, y=20)
 
-explore_label.place(x=px1, y=py1)
-explore_entry.place(x=px1+150, y=py1)
-button_explore.place(x=px1+350, y=py1)
+dataset_label = tk.Label(root, text='Type your dataset:', font=('bold'))
+dataset_box =  tk.Text(root, font=('normal',10), height=28,width=52, borderwidth=2)
+dataset_label.place(x=px1, y=py1-100)
+dataset_box.place(x=px1, y= py1-70)
+explore_label.place(x=px1+500, y=py1)
+explore_entry.place(x=px1+650, y=py1)
+button_explore.place(x=px1+850, y=py1)
 
 
-support_label.place(x=px1, y=py1+40)
-support_entry.place(x=px1+150, y=py1+40)
+support_label.place(x=px1+500, y=py1+40)
+support_entry.place(x=px1+650, y=py1+40)
 
 
-confidence_label.place(x=px1, y=py1+80)
-confidence_entry.place(x=px1+150, y=py1+80)
+confidence_label.place(x=px1+500, y=py1+80)
+confidence_entry.place(x=px1+650, y=py1+80)
 
-rhs_label.place(x=px1, y=py1+120)
-rhs_entry.place(x=px1+150, y=py1+120)
+rhs_label.place(x=px1+500, y=py1+120)
+rhs_entry.place(x=px1+650, y=py1+120)
 
 # sub_btn.grid(row=4,column=1, pady=5, padx=10)
-sub_btn.place(x=px1+150, y=py1+200, anchor=CENTER)
+sub_btn.place(x=px1+650, y=py1+200, anchor=CENTER)
 
 
 root.mainloop()
@@ -93,6 +103,7 @@ msg = 'The APRIORI Algorithm'
 title_label = tk.Label(res, text=msg, font=("Arial",30, "bold"))
 title_label.place(x=400, y=20)
 
+print(dataset)
 msg = ''
 
 msg += """Parameters: \n - filePath: {} \n - mininum support: {} \n - mininum confidence: {} \n - rhs: {}\n""".format(dataset,minSup,minCon, g_RHS) + '\n'

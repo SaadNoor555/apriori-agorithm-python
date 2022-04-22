@@ -1,20 +1,7 @@
-from cgitb import text
-from email.message import Message
-from faulthandler import disable
-from fileinput import filename
-from multiprocessing.connection import wait
-from os import stat
-import re
-from time import sleep
 import tkinter as tk
 from tkinter import CENTER, END, RAISED, StringVar, filedialog, ttk
 from tkinter.ttk import Style
-from turtle import bgcolor, bgpic, color, st
-from webbrowser import get
-from django import conf
-
 from numpy import pad
-
 from apriori import Apriori
 
 def browseFiles():
@@ -66,6 +53,7 @@ def showFreqItems():
     global objApriori
     objApriori = Apriori(minSup, minCon)
     itemCountDict, freqSet = objApriori.fit(dataset)
+    # print(itemCountDict)
     for key, value in freqSet.items():
         msg += 'frequent {}-term set:'.format(key) + '\n'
         msg += '-'*20 +'\n'
